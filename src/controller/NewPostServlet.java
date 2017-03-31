@@ -22,41 +22,74 @@ public class NewPostServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)throws IOException, ServletException {
+		request.getRequestDispatcher("newpost.jsp").forward(request, response);
+	}
+
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		request.setCharacterEncoding("UTF-8");
-
+		List<String> errormessages = new ArrayList<String>();
 		HttpSession session = request.getSession();
+		session.setAttribute("errorMessages", errormessages);
+		String subject = request.getParameter("subject");
+		String category = request.getParameter("category");
+		String newText = request.getParameter("text");
+		request.setAttribute("subject", subject);
+		request.setAttribute("category", category);
+		request.setAttribute("Text", newText);
 
-		List<String> messages = new ArrayList<String>();
+		if (isValid(request, errormessages)) {
 
-		if (isValid(request, messages) == true) {
+			NewPost text = new NewPost();
+			User user = (User) session.getAttribute("loginUser");
+			text.setSubject(request.getParameter("subject"));
+			text.setCategory(request.getParameter("category"));
+			text.setText(request.getParameter("text"));
+			text.setUserId(user.getId());
 
-			User user = (User) session.getAttribute("");
-
-			NewPost message = new NewPost();
-			message.setText(request.getParameter(""));
-			message.setUserId(user.getId());
-
-			new NewPostService().register(message);
-
+			new NewPostService().register(text);
+			session.removeAttribute("errorMessages");
 			response.sendRedirect("./");
 		} else {
-			session.setAttribute("errorMessages", messages);
-			response.sendRedirect("./");
+			session.setAttribute("errorMessages", errormessages);
+			subject = request.getParameter("subject");
+			category = request.getParameter("category");
+			newText = request.getParameter("text");
+			request.setAttribute("subject", subject);
+			request.setAttribute("category", category);
+			request.setAttribute("text", newText);
+
+			request.getRequestDispatcher("newpost.jsp").forward(request, response);
 		}
 	}
 
-	private boolean isValid(HttpServletRequest request, List<String>messages) {
+	private boolean isValid(HttpServletRequest request, List<String>errormessages) {
 
-		String message = request.getParameter("message");
+		String subject = request.getParameter("subject");
+		String category = request.getParameter("category");
+		String text = request.getParameter("text");
 
-		if (StringUtils.isEmpty(message) == true) {
-			messages.add("メッセージを入力してください");
+		if (StringUtils.isEmpty(subject)) {
+			errormessages.add("件名を入力してください");
 		}
-		if (140 < message.length()) {
-			messages.add("140文字以下で入力してください");
+		if (50 < subject.length()) {
+			errormessages.add("50文字以下で入力してください");
 		}
-		if (messages.size() == 0){
+
+		if (StringUtils.isEmpty(category)) {
+			errormessages.add("カテゴリーを入力してください");
+		}
+		if (10 < category.length()) {
+			errormessages.add("10文字以下で入力してください");
+		}
+
+		if (StringUtils.isEmpty(text)) {
+			errormessages.add("本文を入力してください");
+		}
+		if (1000 < text.length()) {
+			errormessages.add("1000文字以下で入力してください");
+		}
+		if (errormessages.size() == 0){
 			return true;
 		} else {
 			return false;

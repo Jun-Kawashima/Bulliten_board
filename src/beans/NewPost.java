@@ -6,24 +6,19 @@ import java.util.Date;
 public class NewPost implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private String object;
-	private String text;
+	private String subject;
 	private String category;
+	private String text;
 	private Date created_at;
-	private int id;
+	private int user_id;
+	private int branch_id;
+	private int department_id;
 
-	public String getObject() {
-		return object;
+	public String getSubject() {
+		return subject;
 	}
-	public void setObject(String object) {
-		this.object = object;
-	}
-
-	public String getText() {
-		return text;
-	}
-	public void setText(String text) {
-		this.text = text;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 
 	public String getCategory() {
@@ -33,17 +28,38 @@ public class NewPost implements Serializable {
 		this.category = category;
 	}
 
-	public Date getCreated_at() {
+	public String getText() {
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public Date getCreatedAt() {
 		return created_at;
 	}
-	public void setCreated_at(Date created_at) {
+	public void setCreatedAt(Date created_at) {
 		this.created_at = created_at;
 	}
 
-	public int getId() {
-		return id;
+	public int getUserId() {
+		return user_id;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setUserId(int user_id) {
+		this.user_id = user_id;
+	}
+
+	public int getBranchId() {
+		return branch_id;
+	}
+	public void setBranchId(int branch_id) {
+		this.branch_id = branch_id;
+	}
+
+	public int getDepartmentId() {
+		return department_id;
+	}
+	public void setDepartmentId(int department_id) {
+		this.department_id = department_id;
 	}
 }

@@ -11,34 +11,32 @@ import exception.SQLRuntimeException;
 
 public class NewPostDao {
 
-	public void insert (Connection connection, NewPost message) {
+	public void insert (Connection connection, NewPost messages) {
 
 		PreparedStatement ps = null;
 		try {
 			StringBuilder sql = new StringBuilder();
-			sql.append("INSERT INTO message (");
-//			sql.append("id");
-			sql.append(", object");
-			sql.append(", text");
+			sql.append("INSERT INTO messages (");
+			sql.append("  subject");
 			sql.append(", category");
-			sql.append(" id");
+			sql.append(", text");
+			sql.append(", user_id");
 			sql.append(", created_at");
-			sql.append(", updated_at");
 			sql.append(") VALUES (");
 
-			sql.append(" ?");
-			sql.append(", ?");
-			sql.append(", ?");
-			sql.append(", ?");
-			sql.append(", CURRENT_TIMESTAMP"); //insert_date
-			sql.append(", CURRENT_TIMESTAMP"); //update_date
+			sql.append(" ?"); //subject
+			sql.append(", ?"); //text
+			sql.append(", ?"); //category
+			sql.append(", ?"); //userId
+			sql.append(", CURRENT_TIMESTAMP"); //created_at
 			sql.append(")");
 
 			ps = connection.prepareStatement(sql.toString());
 
-			ps.setInt(1, message.getId());
-			ps.setString(2, message.getText());
-			System.out.println(ps.toString());
+			ps.setString(1, messages.getSubject());
+			ps.setString(2, messages.getCategory());
+			ps.setString(3, messages.getText());
+			ps.setInt(4, messages.getUserId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			throw new SQLRuntimeException(e);

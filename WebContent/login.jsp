@@ -6,29 +6,34 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="css/style.css" type="text/css">
 <title>掲示板へログイン</title>
 </head>
 <body>
-<div class="main-contents">
+<p class="title" align="center">ログイン</p>
+	<c:if test="${ not empty errorMessages }">
+		<div class="loginErrorMessages">
+			<ul align="center" style="list-style:none;">
+				<c:forEach items="${ errorMessages }" var="errormessages" >
+					<c:out value="${ errormessages }" />
+				</c:forEach>
+			</ul>
+		</div>
+		<c:remove var="errorMessage" scope="session"/>
+	</c:if>
 
-<c:if test= "${ not empty errorMessages }">
-	<div class = "errorMessages">
-		<ul>
-			<c:forEach items="${ errorMesseges }" var="messege">
-				<c:out value="${ message }"/>
-			</c:forEach>
-		</ul>
-	</div>
-	<c:remove var="errorMessage" scope="session"/>
-</c:if>
+<div class="loginBody" align="center">
+	<form action="login" method="post"><br/>
+		<h4>ログインID</h4>
+		<input name="account" id="account"/><br/>
 
-<form action="login" method="post"><br/>
-	<h4>ログインID</h4>
-	<input name="account" id="account"/><br/>
-
-	<h4>パスワード</h4>
-	<input name="password" id="password"><br/>
-</form>
+		<h4>パスワード</h4>
+		<input name = "password" type = "password" id = "password"/> <br />
+		<br/>
+		<input type = "submit" value = "ログイン" /> <br />
+	</form>
 </div>
+<br/><br/>
+<div class="copyright" align="center">Copyright(c)Jun Kawashima</div>
 </body>
 </html>

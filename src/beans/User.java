@@ -10,9 +10,13 @@ public class User implements Serializable {
 	private String name;
 	private String account;
 	private String password;
+	private String confirmPassword;
 	private int branch_id;
 	private int department_id;
+//	private String branch_name;
+//	private String department_name;
 	private int is_stoped;
+	private int message_id;
 	private Date created_at;
 	private Date updated_at;
 
@@ -44,38 +48,52 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public int getBranch_id() {
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+
+	public int getBranchId() {
 		return branch_id;
 	}
-	public void setBranch_id(int branch_id) {
+	public void setBranchId(int branch_id) {
 		this.branch_id = branch_id;
 	}
 
-	public int getDepartment_id() {
+	public int getDepartmentId() {
 		return department_id;
 	}
-	public void setDepartment_id(int department_id) {
+	public void setDepartmentId(int department_id) {
 		this.department_id = department_id;
 	}
 
-	public int getIs_stoped() {
+	public int getIsStoped() {
 		return is_stoped;
 	}
-	public void setIs_stoped(int is_stoped) {
+	public void setIsStoped(int is_stoped) {
 		this.is_stoped = is_stoped;
 	}
 
-	public Date getCreated_at() {
+	public int getMessageId() {
+		return message_id;
+	}
+	public void setMessageId(int message_id) {
+		this.message_id = message_id;
+	}
+
+	public Date getCreatedAt() {
 		return created_at;
 	}
-	public void setCreated_at(Date created_at) {
+	public void setCreatedAt(Date created_at) {
 		this.created_at = created_at;
 	}
 
-	public Date getUpdated_at() {
+	public Date getUpdatedAt() {
 		return updated_at;
 	}
-	public void setUpdated_at(Date updated_at) {
+	public void setUpdatedAt(Date updated_at) {
 		this.updated_at = updated_at;
 	}
 }

@@ -6,54 +6,73 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="css/style.css" type="text/css">
 <title>ユーザー新規登録</title>
 </head>
 <body>
-<div class="main-contents">
-<c:if test="${ not empty errorMessage }">
-	<div class="${ errorMessages }">
-		<ul>
-			<c:forEach items="${ errorMessages }" var="message">
-					<c:out value="${ message }"/>
-			</c:forEach>
-		</ul>
-	</div>
-	<c:remove var="errorMessages" scope="session"/>
-</c:if>
-<form action="signup" method="post">
-	<label for="name">名前</label><br/>
-	<input name="name" id="name">(10文字以下)<br/>
-	<br/>
-	<label for="account">アカウントID</label><br/>
-	<input name="account" id="account">(半角英数字6～20字)<br/>
-	<br/>
-	<label for="password">登録用パスワード</label><br/>
-	<input name="password" id="password">(記号含む半角6文字以上255文字以下)<br/>
-	<br/>
-	<label for="password">確認用パスワード</label><br/>
-	<input name="password" id="password">(確認のため、もう一度入力してください)<br/>
-	<br/>
-	<label for="branch">支店名</label><br/>
-	<select name="department">
-	<option value="本社">本社</option>
-	<option value="支店A">支店A</option>
-	<option value="支店B">支店B</option>
-	<option value="支店C">支店C</option>
-	</select><br/>
-	<br/>
-	<label for="department">部署</label><br/>
-	<select name="department">
-	<option value="総務人事担当者">総務人事担当者</option>
-	<option value="情報管理担当者">情報管理担当者</option>
-	<option value="店長">店長</option>
-	<option value="社員">社員</option>
-	</select><br/>
-	<br/>
 
-	<input type="submit" value="登録"/><br/>
-	<a href="ユーザー管理画面のjsp">戻る</a>
-</form>
-<div class="copyright">Copyright(c)Jun Kawashima</div>
+<p class="title"><ul align="center"><h2>ユーザー新規登録</h2></ul></p>
+<div class="signUpErrorMessages">
+	<c:if test="${ not empty errorMessages }">
+		<div class="errorMessages">
+			<ul style="list-style:none;">
+				<c:forEach items="${ errorMessages }" var="errormessages">
+					<li><c:out value="${ errormessages }"/>
+				</c:forEach>
+			</ul>
+		</div>
+		<c:remove var="errorMessages" scope="session"/>
+	</c:if>
 </div>
+
+<div class="signupBody">
+	<form action="signup" method="post">
+		<label for="name">名前(10文字以下)</label>
+		<br/>
+		<input name="name" id="name" value="${name}" size="30"><br/>
+		<br/>
+		<label for="account">ログインID(半角英数字6～20字)</label>
+		<br/>
+		<input name="account" id="account" value="${account}" size="30"><br/>
+		<br/>
+		<label for="password">登録用パスワード(記号含む半角6文字以上255文字以下)</label><br/>
+		<input name="password" type = "password" id="password" size="30"><br/>
+		<br/>
+		<label for="confirmpassword">確認用パスワード(もう一度入力してください)</label><br/>
+			<input name="confirmPassword" type = "password" id="confirmpassword" size="30"><br/>
+		<br/>
+		<label for="branch">支店名</label><br/>
+			<select name="branchId">
+					<c:forEach  items = "${branch}"  var = "branch">
+					<c:if test="${branch.id == branchId}">
+						<option class ="branch" value = "${branch.id}" selected="${branch.id}">${ branch.name }</option></c:if>
+					<c:if test="${branch.id == users.branchId}">
+						<option class ="branch" value = "${branch.id}">${ branch.name }</option></c:if>
+					<c:if test="${branchId == null}">
+						<option class ="branch" value = "${branch.id}">${ branch.name }</option></c:if>
+				</c:forEach>
+			</select><br/>
+		<br/>
+		<label for="department">部署</label><br/>
+			<select name="departmentId">
+				<c:forEach items = "${ department }" var = "department">
+					<c:if test="${ department.id == departmentId }">
+						<option class ="department" value = "${department.id}" selected="${department.id}">${ department.name }</option></c:if>
+					<c:if test="${ department.id == users.departmentId }">
+						<option class ="department" value = "${department.id}">${ department.name }</option></c:if>
+					<c:if test="${ departmentId == null }">
+						<option class ="department" value = "${department.id}">${ department.name }</option></c:if>
+				</c:forEach>
+			</select>
+		<br/>
+		<br/>
+
+		<input type="submit" value="登録"/><br/>
+		</form>
+	</div>
+	<br/>
+<div class="managementUserBack"><a href="./managementuser">戻る</a></div><br/>
+<br/>
+<div class="copyright" align="center">Copyright(c)Jun Kawashima</div>
 </body>
 </html>

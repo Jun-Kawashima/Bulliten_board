@@ -5,21 +5,23 @@ import static utils.DBUtil.*;
 
 import java.sql.Connection;
 
+import org.apache.commons.lang.StringUtils;
+
 import beans.User;
 import dao.UserDao;
 import utils.CipherUtil;
 
 public class UserService {
-	public void register(User user) {
+	public void register(User users) {
 		Connection connection = null;
 		try {
 			connection = getConnection();
 
-			String encPassword = CipherUtil.encrypt(user.getPassword());
-			user.setPassword(encPassword);
+				String encPassword = CipherUtil.encrypt(users.getPassword());
+				users.setPassword(encPassword);
 
 			UserDao userDao = new UserDao();
-			userDao.insert(connection, user);
+			userDao.insert(connection, users);
 
 			commit(connection);
 		} catch (RuntimeException e) {
@@ -33,17 +35,19 @@ public class UserService {
 		}
 	}
 
-	public void update(User user) {
+	public void update(User users) {
 
 		Connection connection = null;
 		try {
 			connection = getConnection();
 
-			String encPassword = CipherUtil.encrypt(user.getPassword());
-			user.setPassword(encPassword);
+			if (!StringUtils.isEmpty(users.getPassword())) {
+				String encPassword = CipherUtil.encrypt(users.getPassword());
+				users.setPassword(encPassword);
+			}
 
 			UserDao userDao = new UserDao();
-			userDao.update(connection, user);
+			userDao.update(connection, users);
 
 			commit(connection);
 		} catch (RuntimeException e) {
@@ -64,6 +68,27 @@ public class UserService {
 
 			UserDao userDao = new UserDao();
 			User user = userDao.getUser(connection, userId);
+
+			commit(connection);
+
+			return user;
+		} catch (RuntimeException e) {
+			rollback(connection);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			throw e;
+		} finally {
+			close(connection);
+		}
+	}
+	public User getSuffer(String account) {
+		Connection connection = null;
+		try {
+			connection = getConnection();
+
+			UserDao userDao = new UserDao();
+			User user = userDao.getSuffer(connection, account);
 
 			commit(connection);
 

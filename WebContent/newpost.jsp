@@ -7,49 +7,41 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="css/style.css" type="text/css">
 <title>新規投稿</title>
 </head>
 <body>
-
-<div class="main-contents">
-<c:if test="${ not empty errorMessage }">
+<p class="title"><ul align="center"><h2>新規投稿</h2></ul></p>
+<div class="newPostErrorMessages">
+<c:if test="${ not empty errorMessages }">
 	<div class="${ errorMessages }">
-		<ul>
-			<c:forEach items="${ errorMessages }" var="message">
-					<c:out value="${ message }"/>
+		<ul style="list-style:none;">
+			<c:forEach items="${ errorMessages }" var="errormessages">
+				<li><c:out value="${ errormessages }"/>
 			</c:forEach>
 		</ul>
 	</div>
 	<c:remove var="errorMessages" scope="session"/>
 </c:if>
-<form action="new-post" method="post">
-	<label for="object">件名</label><br/>
-	<input name="object" id="object">(50文字以下)<br/>
+</div>
+<div class="postBody">
+<form action="newpost" method="post">
+	<label for="subject">件名(50文字以下)</label><br/>
+	<input name="subject" id="subject" value="${subject}" size="50"><br/>
 	<br/>
-	<label for="text">本文</label><br/>
-	<input name="text" id="text">(1000文字以下)<br/>
-	<textarea name = "text" rows="20" cols="300" class ="text-box"></textarea><br/>
+	<label for="category">カテゴリー(10文字以下)</label><br/>
+	<input name="category" id="category" value="${category}" size="50"><br/>
 	<br/>
-	<label for="category">カテゴリー</label><br/>
-	<input name="category" id="category">(10文字以下)<br/>
+	<label for="text">本文(1000文字以下)</label><br/>
+	<textarea name = "text" rows="20" cols="100" class ="text-box" ><c:out value="${ text }" /></textarea><br/>
 	<br/>
+
+<input type="submit" value="投稿"><br/>
 </form>
-<input type="submit" value="投稿"><a href="ホーム画面">戻る</a> <br />
-
-<div class = "messages">
-	<c:forEach items = "${ messages }" var = "message">
-		<div class = "message">
-			<div class = "account-name">
-				<span class ="account"><c:out value = "${ message.account }" /></span>
-				<span class ="name"><c:out value = "${ message.name }" /></span>
-			</div>
-			<div class = "text"><c:out value = "${ message.text }" /></div>
-			<div class = "date"><fmt:formatDate value = "${ message.insertDate }" pattern = "yyyy/MM/dd HH:mm:ss" /></div>
-		</div>
-	</c:forEach>
 </div>
-
-<div class = "copyright">Copyright (c)Jun kawashima</div>
-</div>
+<br/>
+<div class="back"><a href="./">戻る</a></div><br />
+<br/>
+<div class="copyright" align="center">Copyright(c)Jun Kawashima</div>
 </body>
 </html>
